@@ -1,0 +1,33 @@
+const mongoose= require('mongoose');
+const express= require('express');
+const bodyParser= require('body-parser');
+const router = require ('./routes/router');
+
+
+var app = express();
+
+// connect to db
+mongoose.connect("mongodb://localhost/SkillSearch");
+var db=mongoose.connection;
+
+db.on ('error', () => {
+  console.log(err);
+})
+
+db.on ('open', () => {
+  console.log('Db is connected successfully..');
+})
+
+app.use(bodyParser.json());
+
+//load router middleware
+app.use('/api',router);
+
+app.get('/api', function(req,res){
+  res.send("Welcome to Skill search website");
+});
+
+
+app.listen(3000, function(){
+  console.log("connected to server");
+});
